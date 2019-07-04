@@ -9,7 +9,7 @@ import subprocess
 import re
 from settings import *
 from hashlib import md5
-
+from from_db import *
 
 # standard scheck
 def dir_exist(full_path):
@@ -17,10 +17,15 @@ def dir_exist(full_path):
     pass
 
 
+def file_exist(full_path):
+    ''' принять путь к файлу, проверить, что он есть '''
+    pass
+
+
 # base dirs functions
 def create_raw_list():
     '''требуется один раз, при первом запуске'''
-    
+    pass
 
 
 def check_dir_size(full_path):
@@ -30,6 +35,7 @@ def check_dir_size(full_path):
         return True
     else:
         return False
+
 
 # работа с файлами
 def check_type_file(fname):
@@ -46,6 +52,24 @@ def create_raw_list(path_to_dir):
     return f
 
 
+def create_final_list(raw_list):
+    ''' принять вывод первой функции, создать лист из полных путей к файлами'''
+    path_f = []
+    for d, dirs, files in a:
+        for f in files:
+            path1 = path.join(d,f)
+            path_f.append(path1)
+    return path_f
+
+
+def get_file_type(fname):
+    ''' принять full_path, вернуть расширение.'''
+    try:
+        return fname.split('.')[-1]
+    except:
+        return False
+
+
 def check_resolution(fname):
     ''' если файл графический jpeg OR png получить его разрешение '''
     pass
@@ -59,8 +83,8 @@ def return_hash_file(fname):
             hash_md5.update(chunk)
     return hash_md5.hexdigest()
 
-def chechk_ru_lang(fname):
-    ''' берем имя файла, проверяем все что выше ascii !!'''
+def check_ru_lang(fname):
+    ''' берем имя файла, проверяем есть ли в нём кириллица '''
     check_result = []
     for i in fname:
         if ord(i) > 128:
@@ -74,9 +98,19 @@ def chechk_ru_lang(fname):
 # пока план такой: вызываем скрипт который отдает в темпа текстовый файл.
 
 ## работа с базой
+def add_values(f_name):
+    new_values = docs(
+        fname = f_name.split('/')[-1],
+        full_path = f_name,
+        file_md5 = return_hash_file(f_name),
+        file_type = get_file_type(f_name)
+    )
+    new_values.save()
 
 
 if __name__ == '__main__':
-    a = create_raw_list('/home/roman/gits/from_atkin')
-    for i in a:
-        print(i)
+    a = create_raw_list('/home/roman/music/SickTanick')
+    b = create_final_list(a)
+    for i in b:
+        add_values(i)
+
