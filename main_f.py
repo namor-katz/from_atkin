@@ -114,7 +114,7 @@ def add_values(f_name):
     new_values = docs(
         fname = f_name.split('/')[-1],
         full_path = f_name,
-        file_md5 = return_hash_file(fname),
+        file_md5 = return_hash_file(f_name),
         file_type = get_file_type(f_name)
         #file_content = recognize_text(fname)
 )
@@ -126,7 +126,7 @@ if __name__ == '__main__':
     b = create_final_list(a)
     for i in b:
         print(i)
-        #add_values(i)
+        add_values(i)
 
     '''
     a = get_all()
