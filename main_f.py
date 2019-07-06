@@ -122,6 +122,7 @@ def add_values(f_name):
 
 
 if __name__ == '__main__':
+    '''
     a = create_raw_list(path_to_docs)
     b = create_final_list(a)
     for i in b:
@@ -132,4 +133,5 @@ if __name__ == '__main__':
     a = get_all()
     for i in a:
         print(i)
-'''
+        recognize_text(i)
+

@@ -71,6 +71,11 @@ def write_text(fname, text_string):
         return False
 
 
+def set_is_recognized(fname):
+    '''принять имя дока, выставить is_recognized в  True'''
+    pass
+
+
 def get_all():
     '''вернуть имена всех файлов'''
     all_docs = []
