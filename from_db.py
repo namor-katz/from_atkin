@@ -42,4 +42,44 @@ db.create_tables([docs])
 
 
 # getters and setters
+def get_full_path(fname):
+    '''принимает имя файла, возвращаем полный путь.'''
+    try:
+        query = docs.get(docs.fname == fname).full_path
+        return query
+    except:
+        return False
 
+
+def get_md5(fname):
+    '''принять имя файла, вернуть его md5sum'''
+    try:
+        print(fname)
+        query = docs.get(docs.fname == fname).file_md5
+        return query
+    except:
+        return False
+
+
+def write_text(fname, text_string):
+    '''принять текст, записать в базу'''
+    try:
+        query = docs.update(file_content=text_string).where(docs.fname==fname)
+        query.execute()
+        return True
+    except:
+        return False
+
+
+def get_all():
+    '''вернуть имена всех файлов'''
+    all_docs = []
+    query = docs.select()
+    for i in query:
+        all_docs.append(i.fname)
+
+    return all_docs
+
+
+if __name__ == "__main__":
+    pass

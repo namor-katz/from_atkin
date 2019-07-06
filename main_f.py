@@ -2,14 +2,18 @@
 # -*- coding: utf-8 -*-
 #
 
-#import os
 from os import walk, path
 import sys
-import subprocess
 import re
 from settings import *
 from hashlib import md5
 from from_db import *
+from PIL import Image
+import pytesseract
+import logging
+
+# this is parse command-line 
+
 
 # standard scheck
 def dir_exist(full_path):
@@ -23,11 +27,6 @@ def file_exist(full_path):
 
 
 # base dirs functions
-def create_raw_list():
-    '''требуется один раз, при первом запуске'''
-    pass
-
-
 def check_dir_size(full_path):
     ''' принять путь к директории, вернуть размер
     :input: string  return int'''
@@ -75,13 +74,26 @@ def check_resolution(fname):
     pass
 
 
+def recognize_text(fname):
+    '''получаем на вход файл, распознаём текст. возвращаем текст либо None'''
+    try:
+        full_path = get_full_path(fname)
+        tmp_text = pytesseract.image_to_string(Image.open(full_path), lang='rus')
+        write_text(fname, tmp_text)
+        return True
+    except:
+        return False
+
+
+# print(pytesseract.image_to_string(Image.open('test-european.jpg'), lang='fra')) # !! это основная часть.
 def return_hash_file(fname):
-    '''get selected file, return string md5sum'''
+    ''' get selected file, return string md5sum'''
     hash_md5 = md5()
     with open(fname, 'rb') as f:
         for chunk in iter(lambda: f.read(4096), b""):
             hash_md5.update(chunk)
     return hash_md5.hexdigest()
+
 
 def check_ru_lang(fname):
     ''' берем имя файла, проверяем есть ли в нём кириллица '''
@@ -102,15 +114,22 @@ def add_values(f_name):
     new_values = docs(
         fname = f_name.split('/')[-1],
         full_path = f_name,
-        file_md5 = return_hash_file(f_name),
+        file_md5 = return_hash_file(fname),
         file_type = get_file_type(f_name)
-    )
+        #file_content = recognize_text(fname)
+)
     new_values.save()
 
 
 if __name__ == '__main__':
-    a = create_raw_list('/home/roman/music/SickTanick')
+    a = create_raw_list(path_to_docs)
     b = create_final_list(a)
     for i in b:
-        add_values(i)
+        print(i)
+        #add_values(i)
 
+    '''
+    a = get_all()
+    for i in a:
+        print(i)
+'''
