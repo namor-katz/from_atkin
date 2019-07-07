@@ -123,17 +123,21 @@ def add_values(f_name):
     new_values.save()
 
 
+
+
+def extraxt_names_of_text(text):
+    '''получаем текст, извлекаем из него имена и их положение
+    :input: str'''
+    extractor = NamesExtractor()
+    matches = extractor(text)
+    spans = [_.span for _ in matches]
+    facts = [_.fact.as_json for _ in matches]
+    show_markup(text, spans)
+    show_json(facts)
+
+
 if __name__ == '__main__':
-    '''
-    a = create_raw_list(path_to_docs)
-    b = create_final_list(a)
-    for i in b:
-        print(i)
-        add_values(i)
-
-    '''
-    a = get_all()
-    for i in a:
-        print(i)
-        recognize_text(i)
-
+    text = get_document_content('Доверенность-зп.jpg')
+    text = str(text) # привод к строке обязателен. с listn not work
+    print(text)
+    extraxt_names_of_text(text)

@@ -102,13 +102,23 @@ def get_is_recognized():
 
 
 def get_keyword(keyword):
-    '''принять ключевое слово, вернуть имя документа'''
+    '''принять ключевое слово, вернуть имя документа в котором оно содержится'''
     search_result = []
-    query = docs.select().where(docs.file_content.contains('врач')) 
+    query = docs.select().where(docs.file_content.contains(keyword)) 
     for i in query:
         search_result.append(i.fname)
         
     return search_result
+
+
+def get_document_content(fname):
+    '''принять имя документа, вернуть его содержание'''
+    doc_list = []
+    query = docs.select().where(docs.fname==fname)
+    for i in query:
+        doc_list.append(i.file_content)
+    
+    return doc_list
 
 
 def get_all():
