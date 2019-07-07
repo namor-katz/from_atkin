@@ -78,7 +78,7 @@ def recognize_text(fname):
     '''получаем на вход файл, распознаём текст. возвращаем текст либо None'''
     try:
         full_path = get_full_path(fname)
-        tmp_text = pytesseract.image_to_string(Image.open(full_path), lang='rus')
+        tmp_text = pytesseract.image_to_string(Image.open(full_path), lang='rus') # this is str
         write_text(fname, tmp_text)
         return True
     except:
@@ -123,11 +123,15 @@ def add_values(f_name):
 
 def search_name(text):
     '''принять текст, извлечь подходящее имя'''
-    regexp = r"[А-Я][а-я]*[\s\n][А-Я][а-я]*[\s\n][А-Я][а-я]\S*"
+    regexp = "[А-Я][а-я]*[\s+][А-Я][а-я]*[\s+|'\n'][А-Я][а-я]\S*"
     text = str(text)
+    #text2 = text.replace('\n', ' ') # re.sub(r'\n',  ' ',  text)  
     #print("я модная строка {}".format(text))
     result = re.findall(regexp, text)
-    if len(result) > 1:
+    print("я есть результ",  result)
+    if len(result) > 0:
+        print("думаю, доверенность выдана на: {}".format(result[0]))
+    elif len(result) > 1:
         print("думаю, доверенность выдана на: {}".format(result[1]))
     else:
         print("не знаю на кого выдано")
