@@ -73,7 +73,42 @@ def write_text(fname, text_string):
 
 def set_is_recognized(fname):
     '''принять имя дока, выставить is_recognized в  True'''
-    pass
+    try:
+        query = docs.update(is_recognized=True).where(docs.fname==fname)
+        query.execute()
+        return True
+    except:
+        return False
+
+
+def get_is_not_recognized():
+    ''' вернуть все нераспознанные'''
+    not_recogn = []
+    query = docs.select().where(docs.is_recognized==False)
+    for i in query:
+        not_recogn.append(i.fname)
+    
+    return not_recogn
+
+
+def get_is_recognized():
+    '''вернуть все распознанные документы'''
+    recogn = []
+    query = docs.select().where(docs.is_recognized==True)
+    for i in query:
+        recogn.append(i.fname)
+    
+    return recogn
+
+
+def get_keyword(keyword):
+    '''принять ключевое слово, вернуть имя документа'''
+    search_result = []
+    query = docs.select().where(docs.file_content.contains('врач')) 
+    for i in query:
+        search_result.append(i.fname)
+        
+    return search_result
 
 
 def get_all():
