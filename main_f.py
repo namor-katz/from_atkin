@@ -123,23 +123,19 @@ def add_values(f_name):
 
 def search_name(text):
     '''принять текст, извлечь подходящее имя'''
-    regexp = "\.\s[А-Я]\S*\s[А-Я]\S*\s[А-Я]\S*"
+    regexp = r"[А-Я][а-я]*[\s\n][А-Я][а-я]*[\s\n][А-Я][а-я]\S*"
     text = str(text)
-    result = re.search(regexp,  text)
-    print(result)
+    #print("я модная строка {}".format(text))
+    result = re.findall(regexp, text)
+    if len(result) > 1:
+        print("думаю, доверенность выдана на: {}".format(result[1]))
+    else:
+        print("не знаю на кого выдано")
 
 
 if __name__ == '__main__':
-    '''
-    a = create_raw_list(path_to_docs)
-    b = create_final_list(a)
-    for i in b:
-        print(i)
-        add_values(i)
-
-    '''
     a = get_all()
     for i in a:
-        print(i)
-        recognize_text(i)
-
+        print("это название документа ", i)
+        b = get_document_content(i)
+        search_name(b)

@@ -32,7 +32,7 @@ class docs(Model):
     date_indexing = DateTimeField(null=True) #Э?  default=datetime.datetime.now
     file_size = IntegerField(default=None, null=True)
     file_content = TextField(index=True, null=True) # very large text from search
-    whom = CharField(default=None,  null=True)
+    #whom = CharField(default=None,  null=True)
 
     class Meta:
         database = db
@@ -110,6 +110,16 @@ def get_keyword(keyword):
         search_result.append(i.fname)
         
     return search_result
+
+
+def get_document_content(fname):
+    '''принять имя документа, вернуть его содержание'''
+    doc_list = []
+    query = docs.select().where(docs.fname==fname)
+    for i in query:
+        doc_list.append(i.file_content)
+    
+    return doc_list
 
 
 def get_all():
