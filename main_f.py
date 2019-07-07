@@ -11,6 +11,8 @@ from from_db import *
 from PIL import Image
 import pytesseract
 import logging
+from natasha import NamesExtractor
+from natasha.markup import show_markup, show_json
 
 # this is parse command-line 
 
