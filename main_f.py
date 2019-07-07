@@ -121,6 +121,14 @@ def add_values(f_name):
     new_values.save()
 
 
+def search_name(text):
+    '''принять текст, извлечь подходящее имя'''
+    regexp = "\.\s[А-Я]\S*\s[А-Я]\S*\s[А-Я]\S*"
+    text = str(text)
+    result = re.search(regexp,  text)
+    print(result)
+
+
 if __name__ == '__main__':
     '''
     a = create_raw_list(path_to_docs)

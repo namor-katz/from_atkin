@@ -32,6 +32,7 @@ class docs(Model):
     date_indexing = DateTimeField(null=True) #Э?  default=datetime.datetime.now
     file_size = IntegerField(default=None, null=True)
     file_content = TextField(index=True, null=True) # very large text from search
+    whom = CharField(default=None,  null=True)
 
     class Meta:
         database = db
