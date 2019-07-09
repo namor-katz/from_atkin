@@ -129,7 +129,7 @@ def search_name(text):
     #print("я модная строка {}".format(text))
     result = re.findall(regexp, text)
     print("я есть результ",  result)
-    if len(result) > 0:
+    if len(result) == 1:
         print("думаю, доверенность выдана на: {}".format(result[0]))
     elif len(result) > 1:
         print("думаю, доверенность выдана на: {}".format(result[1]))
